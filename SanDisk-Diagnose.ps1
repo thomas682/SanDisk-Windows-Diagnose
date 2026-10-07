@@ -25,3 +25,27 @@ Add-Content $out ('SanDisk/Extreme erkannt: '+$(if($sd){'JA'}else{'NEIN'}))
 Add-Content $out 'Hinweis: Die Stromabgabe des konkreten USB-C-Ports kann mit Windows-Bordmitteln nicht verlaesslich gemessen werden.'
 Write-Host ('FERTIG: '+$out) -ForegroundColor Green
 Start-Process notepad.exe $out
+Start-Sleep -Milliseconds 700
+Add-Type -AssemblyName PresentationFramework
+$msg = @'
+DIAGNOSE ABGESCHLOSSEN!
+
+Bitte senden Sie die auf dem Desktop erzeugte Diagnose-TXT-Datei UNVERAENDERT per E-Mail an:
+
+Thomasschatz@live.de
+
+Bitte fuegen Sie ausserdem folgende Nachweise bei:
+- Screenshot Geraete-Manager: USB-Controller vollstaendig aufgeklappt
+- Screenshot Geraete-Manager: Laufwerke mit angeschlossener SanDisk SSD
+- Screenshot Datentraegerverwaltung: vollstaendiges Fenster
+- Screenshot winver: Windows-Version und Build
+- Screenshot msinfo32: Systemuebersicht mit PC-/Mainboard-Angaben
+- Foto des verwendeten USB-Anschlusses
+- Foto von SSD, Kabel und verwendetem Anschluss
+
+WICHTIG: Lassen Sie die SSD waehrend der Aufnahmen angeschlossen.
+
+Das Skript versendet oder uebertraegt keinerlei Daten automatisch.
+'@
+[System.Windows.MessageBox]::Show($msg,'SanDisk Diagnose - Ergebnisse senden','OK','Information') | Out-Null
+Start-Process explorer.exe -ArgumentList ('/select,"' + $out + '"')
